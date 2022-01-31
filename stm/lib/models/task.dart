@@ -10,5 +10,5 @@ class Task {
 
   String get getCategory => category.toString().split(".").last;
 
-  set addPhase(Phase newPhase) => this.phases.add(newPhase);
+  void addPhase(Phase newPhase) => this.phases.add(newPhase);
 }

@@ -4,6 +4,7 @@ import 'package:stm/controllers/appcontroller.dart';
 import 'package:stm/controllers/taskcontroller.dart';
 import 'package:stm/models/phase.dart';
 import 'package:stm/models/task.dart';
+import 'package:stm/pages/phasepage.dart';
 import 'package:stm/utils/Categories.dart';
 
 class Taskpage extends StatelessWidget {
@@ -18,9 +19,7 @@ class Taskpage extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                var task =
-                    Task(name: ctrl.name.value, category: ctrl.category.value);
-                appCtrl.addTask(task);
+                appCtrl.addTask(ctrl.task);
                 Get.back();
               },
               icon: Icon(Icons.save_alt))
@@ -31,9 +30,9 @@ class Taskpage extends StatelessWidget {
           child: Column(
             children: [
               TextFormField(
-                initialValue: ctrl.name.value,
+                initialValue: ctrl.task.name,
                 onChanged: (value) {
-                  ctrl.name.value = value;
+                  ctrl.task.name = value;
                 },
               ),
               DropdownButtonFormField<Categories>(
@@ -46,8 +45,38 @@ class Taskpage extends StatelessWidget {
                             ))
                     .toList(),
                 onChanged: (value) {
-                  ctrl.category.value = value!;
+                  ctrl.task.category = value!;
                 },
+              ),
+              Divider(
+                height: 5,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.to(() => Phasepage());
+                  },
+                  child: Text(
+                    "+",
+                    textScaleFactor: 3,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: ctrl.phases.value.length,
+                  itemBuilder: (context, i) {
+                    return Card(
+                      color: Colors.accents[0],
+                      child: SizedBox(
+                        height: 50,
+                        child: Text(
+                            "${ctrl.phases.value[i].index}\t\t\t${ctrl.phases.value[i].duration}"),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),
