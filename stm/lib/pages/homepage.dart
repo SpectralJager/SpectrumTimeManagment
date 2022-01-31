@@ -27,10 +27,10 @@ class Homepage extends StatelessWidget {
           textScaleFactor: 3,
         ),
         onPressed: () {
-          // Get.to(() => Taskpage());
-          var task = Task(
-              name: "Test${Random().nextInt(50)}", category: Categories.Other);
-          ctr.addTask(task);
+          Get.to(() => Taskpage());
+          // var task = Task(
+          // name: "Test${Random().nextInt(50)}", category: Categories.Other);
+          // ctr.addTask(task);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
