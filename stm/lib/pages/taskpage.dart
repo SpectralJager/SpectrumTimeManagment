@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stm/controllers/appcontroller.dart';
 import 'package:stm/controllers/taskcontroller.dart';
-import 'package:stm/models/phase.dart';
-import 'package:stm/models/task.dart';
 import 'package:stm/pages/phasepage.dart';
 import 'package:stm/utils/Categories.dart';
 
@@ -25,7 +23,7 @@ class Taskpage extends StatelessWidget {
               icon: Icon(Icons.save_alt))
         ],
       ),
-      body: GetX<taskController>(
+      body: GetBuilder<taskController>(
         builder: (_) => Form(
           child: Column(
             children: [
@@ -65,14 +63,14 @@ class Taskpage extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: ctrl.phases.value.length,
+                  itemCount: ctrl.task.phases.length,
                   itemBuilder: (context, i) {
                     return Card(
                       color: Colors.accents[0],
                       child: SizedBox(
                         height: 50,
                         child: Text(
-                            "${ctrl.phases.value[i].index}\t\t\t${ctrl.phases.value[i].duration}"),
+                            "${ctrl.task.phases[i].index}\t\t\t${ctrl.task.phases[i].duration}"),
                       ),
                     );
                   },
