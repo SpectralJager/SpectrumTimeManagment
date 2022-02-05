@@ -1,6 +1,8 @@
 enum Categories {
-  Entertainment,
-  Work,
-  Sport,
-  Other,
+  entertainment,
+  work,
+  sport,
+
+  // should be last
+  other,
 }
