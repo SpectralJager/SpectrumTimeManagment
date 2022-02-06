@@ -11,36 +11,36 @@ class AppController extends GetxController {
     Task(name: "Teaching", category: Categories.work, phases: [
       Phase(
           index: 1,
-          startTime: DateTime(2022, 2, 4, 22, 30),
-          endTime: DateTime(2022, 2, 5, 2)),
+          startTime: DateTime(2022, 2, 5, 22, 30),
+          endTime: DateTime(2022, 2, 6, 2)),
       Phase(
           index: 2,
-          startTime: DateTime(2022, 2, 5, 10, 30),
-          endTime: DateTime(2022, 2, 5, 12, 10)),
+          startTime: DateTime(2022, 2, 6, 10, 30),
+          endTime: DateTime(2022, 2, 6, 12, 10)),
     ]),
     Task(name: "Coding", category: Categories.work, phases: [
       Phase(
           index: 1,
-          startTime: DateTime(2022, 2, 5, 12),
+          startTime: DateTime(2022, 2, 6, 9, 50),
           endTime: DateTime.now())
     ]),
     Task(name: "Playing", category: Categories.entertainment, phases: [
       Phase(
           index: 1,
-          startTime: DateTime(2022, 2, 5, 10),
-          endTime: DateTime(2022, 2, 5, 11, 30))
+          startTime: DateTime(2022, 2, 5, 20),
+          endTime: DateTime(2022, 2, 5, 21, 30))
     ]),
     Task(name: "Running", category: Categories.sport, phases: [
       Phase(
           index: 1,
-          startTime: DateTime(2022, 2, 4, 16, 10),
-          endTime: DateTime(2022, 2, 4, 18))
+          startTime: DateTime(2022, 2, 5, 16, 10),
+          endTime: DateTime(2022, 2, 5, 18))
     ]),
   ];
 
   List<CategoryData> categoryData = [];
 
-  void GenerateCategoryDataList() {
+  void generateCategoryDataList() {
     var currentTime = DateTime.now();
     var twentyFourHoursAgo = currentTime.subtract(Duration(hours: 24));
     var durationAtAll = Duration();

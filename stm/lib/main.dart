@@ -14,6 +14,7 @@ class STM extends StatelessWidget {
     return GetMaterialApp(
       title: "Spectrum Time Managment",
       home: Homepage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
