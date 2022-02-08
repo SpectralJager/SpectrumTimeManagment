@@ -1,10 +1,9 @@
-import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:stm/models/categorydata.dart';
 import 'package:stm/models/phase.dart';
 import 'package:stm/models/task.dart';
 import 'package:stm/utils/Categories.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class AppController extends GetxController {
   var tasks = [
@@ -37,8 +36,8 @@ class AppController extends GetxController {
           endTime: DateTime(2022, 2, 5, 18))
     ]),
   ];
-
   List<CategoryData> categoryData = [];
+  late Task editedTask;
 
   void generateCategoryDataList() {
     var currentTime = DateTime.now();
@@ -69,5 +68,14 @@ class AppController extends GetxController {
     }).toList();
     this.categoryData.last.duration += Duration(hours: 24) - durationAtAll;
     this.update();
+  }
+
+  String phaseTime(Phase phase) {
+    return "${DateFormat('MM.dd, kk:mm').format(phase.startTime)} to ${DateFormat('MM.dd, kk:mm').format(phase.startTime)}";
+  }
+
+  String phaseDuration(Phase phase) {
+    var duration = phase.endTime.difference(phase.startTime);
+    return "${duration.inMinutes} minutes";
   }
 }

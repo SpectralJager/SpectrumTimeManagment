@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stm/controllers/appcontroller.dart';
 import 'package:stm/models/categorydata.dart';
+import 'package:stm/models/task.dart';
+import 'package:stm/pages/taskpage.dart';
 import 'package:stm/utils/Categories.dart';
 import 'package:stm/utils/appcolors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -13,22 +15,26 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var ctr = Get.put(AppController());
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          ctr.editedTask =
+              Task(name: "", category: Categories.other, phases: []);
+          Get.to(() => Taskpage());
+        },
         backgroundColor: ORANGE_WEB,
         child: Text('+', textScaleFactor: 3),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: RICH_BLACK_FOGRA_29,
-      body: GetBuilder<AppController>(
-        init: AppController(),
-        builder: (ctr) {
-          ctr.generateCategoryDataList();
-          return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 40),
-              child: Column(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 40),
+          child: GetBuilder<AppController>(
+            builder: (_) {
+              ctr.generateCategoryDataList();
+              return Column(
                 children: [
                   SizedBox(
                     // height: MediaQuery.of(context).size.height * .40 - 10,
@@ -65,7 +71,7 @@ class Homepage extends StatelessWidget {
                   ),
                   Divider(
                     height: 10,
-                    thickness: 5,
+                    thickness: 3,
                     color: PLATINUM,
                   ),
                   Expanded(
@@ -90,7 +96,7 @@ class Homepage extends StatelessWidget {
                         }
                         return SizedBox(
                           height: 80,
-                          width: 100,
+                          // width: 100,
                           child: Card(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,8 +113,11 @@ class Homepage extends StatelessWidget {
                                   ),
                                 ),
                                 IconButton(
-                                  onPressed: () {},
                                   icon: Icon(Icons.arrow_forward_ios_outlined),
+                                  onPressed: () {
+                                    ctr.editedTask = task;
+                                    Get.to(() => Taskpage());
+                                  },
                                 ),
                               ],
                             ),
@@ -118,10 +127,10 @@ class Homepage extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
   }
