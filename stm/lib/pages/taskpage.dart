@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stm/controllers/appcontroller.dart';
 import 'package:stm/models/task.dart';
+import 'package:stm/pages/homepage.dart';
+import 'package:stm/pages/phasepage.dart';
 import 'package:stm/utils/Categories.dart';
 import 'package:stm/utils/appcolors.dart';
 
@@ -11,13 +13,28 @@ class Taskpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var ctr = Get.find<AppController>();
-    var tempTask = Task(
-        name: ctr.editedTask.name,
-        category: ctr.editedTask.category,
-        phases: [...ctr.editedTask.phases]);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ORANGE_WEB,
+        actions: [
+          Container(
+            padding: EdgeInsets.only(right: 30, left: 30),
+            color: Colors.red,
+            child: IconButton(
+                onPressed: () {
+                  ctr.deleteTask();
+                },
+                icon: Icon(Icons.delete_forever_outlined),
+                iconSize: 30),
+          )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(Colors.green.value),
+        child: Icon(Icons.assignment_turned_in_outlined),
+        onPressed: () {
+          ctr.addTask();
+        },
       ),
       backgroundColor: RICH_BLACK_FOGRA_29,
       body: Padding(
@@ -51,9 +68,9 @@ class Taskpage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide(color: PLATINUM, width: 1)),
                       ),
-                      initialValue: tempTask.name,
+                      initialValue: ctr.editedTask.name,
                       onChanged: (value) {
-                        tempTask.name = value;
+                        ctr.editedTask = ctr.editedTask.copyWith(name: value);
                       },
                     ),
                   ),
@@ -89,7 +106,7 @@ class Taskpage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      value: tempTask.category,
+                      value: ctr.editedTask.category,
                       items: Categories.values
                           .map<DropdownMenuItem<Categories>>((value) =>
                               DropdownMenuItem(
@@ -98,7 +115,8 @@ class Taskpage extends StatelessWidget {
                               ))
                           .toList(),
                       onChanged: (value) {
-                        tempTask.category = value!;
+                        ctr.editedTask =
+                            ctr.editedTask.copyWith(category: value);
                       },
                     ),
                   ),
@@ -115,47 +133,48 @@ class Taskpage extends StatelessWidget {
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(ORANGE_WEB)),
-                  onPressed: () {},
-                  child: Text(
-                    '+',
-                    textScaleFactor: 3,
-                  ),
+                  onPressed: () {
+                    Get.to(() => PhasePage());
+                  },
+                  child: Icon(Icons.add),
                 ),
               ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: ListView.builder(
-                    itemCount: tempTask.phases.length,
-                    itemBuilder: (context, i) {
-                      return SizedBox(
-                        height: 80,
-                        width: MediaQuery.of(context).size.width,
-                        child: Card(
-                          color: PLATINUM,
-                          child: ListTile(
-                            title: Text(ctr.phaseTime(tempTask.phases[i])),
-                            subtitle:
-                                Text(ctr.phaseDuration(tempTask.phases[i])),
-                            leading: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "${i + 1} ",
-                                  textScaleFactor: 2,
-                                ),
-                                Icon(
-                                  Icons.timer,
-                                ),
-                              ],
+                child: GetBuilder<AppController>(builder: (_) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 70),
+                    child: ListView.builder(
+                      itemCount: ctr.editedTask.phases.length,
+                      itemBuilder: (context, i) {
+                        var reversed = ctr.editedTask.phases.reversed.toList();
+                        return SizedBox(
+                          height: 80,
+                          width: MediaQuery.of(context).size.width,
+                          child: Card(
+                            color: PLATINUM,
+                            child: ListTile(
+                              title: Text(ctr.phaseTime(reversed[i])),
+                              subtitle: Text(ctr.phaseDuration(reversed[i])),
+                              leading: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "${reversed.length - i} ",
+                                    textScaleFactor: 2,
+                                  ),
+                                  Icon(
+                                    Icons.timer,
+                                  ),
+                                ],
+                              ),
+                              minLeadingWidth: 20,
                             ),
-                            minLeadingWidth: 20,
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                        );
+                      },
+                    ),
+                  );
+                }),
               ),
             ],
           ),

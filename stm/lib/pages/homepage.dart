@@ -15,24 +15,27 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var ctr = Get.put(AppController());
+    var ctr = Get.find<AppController>();
+    // print("home ${DateTime.now()}");
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ctr.editedTask =
-              Task(name: "", category: Categories.other, phases: []);
+              Task(id: 0, name: "", category: Categories.other, phases: []);
           Get.to(() => Taskpage());
         },
         backgroundColor: ORANGE_WEB,
-        child: Text('+', textScaleFactor: 3),
+        child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: RICH_BLACK_FOGRA_29,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 40),
+          padding: const EdgeInsets.only(
+              left: 10.0, right: 10.0, top: 40, bottom: 70),
           child: GetBuilder<AppController>(
             builder: (_) {
+              // print("build ${DateTime.now()}");
               ctr.generateCategoryDataList();
               return Column(
                 children: [
@@ -79,6 +82,7 @@ class Homepage extends StatelessWidget {
                       itemCount: ctr.tasks.length,
                       itemBuilder: (content, index) {
                         var task = ctr.tasks[index];
+                        // print(task.toMap());
                         var icon;
                         switch (task.category) {
                           case Categories.work:
@@ -106,16 +110,13 @@ class Homepage extends StatelessWidget {
                                   child: ListTile(
                                     leading: Icon(icon),
                                     title: Text(task.name),
-                                    subtitle: Text(task.category
-                                        .toString()
-                                        .split(".")
-                                        .last),
+                                    subtitle: Text(task.category.name),
                                   ),
                                 ),
                                 IconButton(
                                   icon: Icon(Icons.arrow_forward_ios_outlined),
                                   onPressed: () {
-                                    ctr.editedTask = task;
+                                    ctr.editedTask = task.copyWith();
                                     Get.to(() => Taskpage());
                                   },
                                 ),
