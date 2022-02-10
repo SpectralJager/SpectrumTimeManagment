@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:stm/models/categorydata.dart';
 import 'package:stm/models/phase.dart';
@@ -23,6 +26,9 @@ class AppController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    if (await Permission.storage.request().isDenied) {
+      exit(0);
+    }
     final appDir = await getApplicationDocumentsDirectory();
     await appDir.create(recursive: true);
     final databasePath = join(appDir.path, "stm.db");
@@ -39,7 +45,7 @@ class AppController extends GetxController {
 
   void fetchTasks() async {
     final snapshot = await this._store.find(this._database);
-    print('fetch ${DateTime.now()}');
+    // print('fetch ${DateTime.now()}');
     this.tasks = snapshot
         .map((element) => Task.fromMap(element.key, element.value))
         .toList();
