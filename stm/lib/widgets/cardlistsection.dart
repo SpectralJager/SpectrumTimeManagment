@@ -13,81 +13,89 @@ class CardListSection extends StatelessWidget {
     return GetBuilder<AppController>(builder: (ctr) {
       // ctr.getTasks();
       return Expanded(
-        child: ListView.builder(
-          itemCount: ctr.tasks.length,
-          itemBuilder: (content, index) {
-            var task = ctr.tasks[index];
-            var icon;
-            switch (task.category) {
-              case Categories.work:
-                icon = Icons.work_outline_outlined;
-                break;
-              case Categories.entertainment:
-                icon = Icons.games_outlined;
-                break;
-              case Categories.sport:
-                icon = Icons.sports_football_outlined;
-                break;
-              case Categories.other:
-                icon = Icons.unarchive_outlined;
-                break;
-            }
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              height: 80,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              decoration: BoxDecoration(
-                  color: index.isEven ? ORANGE_WEB : RICH_BLACK_FOGRA_29,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(color: PLATINUM, spreadRadius: 2),
-                  ]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: ListTile(
-                      leading: Icon(
-                        icon,
-                        color: index.isOdd ? ORANGE_WEB : RICH_BLACK_FOGRA_29,
-                      ),
-                      title: Text(
-                        task.name,
-                        style: GoogleFonts.cabin(
-                          textStyle: TextStyle(
-                              color: WHITE, fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: ListView.builder(
+            itemCount: ctr.tasks.length,
+            itemBuilder: (content, index) {
+              var task = ctr.tasks[index];
+              var icon;
+              switch (task.category) {
+                case Categories.work:
+                  icon = Icons.work_outline_outlined;
+                  break;
+                case Categories.entertainment:
+                  icon = Icons.games_outlined;
+                  break;
+                case Categories.sport:
+                  icon = Icons.sports_football_outlined;
+                  break;
+                case Categories.other:
+                  icon = Icons.unarchive_outlined;
+                  break;
+              }
+              return Container(
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                height: 76,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration: BoxDecoration(
+                    color: index.isEven ? ORANGE_WEB : RICH_BLACK_FOGRA_29,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                          color:
+                              index.isEven ? ORANGE_WEB : RICH_BLACK_FOGRA_29,
+                          spreadRadius: 2),
+                    ]),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: ListTile(
+                        leading: Icon(
+                          icon,
+                          color: index.isOdd ? ORANGE_WEB : RICH_BLACK_FOGRA_29,
                         ),
-                      ),
-                      subtitle: Text(
-                        task.category.name,
-                        style: GoogleFonts.martelSans(
-                          textStyle: TextStyle(color: PLATINUM),
+                        title: Text(
+                          task.name,
+                          style: GoogleFonts.cabin(
+                            textStyle: TextStyle(
+                                color: WHITE, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        subtitle: Text(
+                          task.category.name,
+                          style: GoogleFonts.martelSans(
+                            textStyle: TextStyle(color: PLATINUM),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: 70,
-                    child: ElevatedButton(
-                      style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(0))),
-                        backgroundColor:
-                            index.isOdd ? ORANGE_WEB : RICH_BLACK_FOGRA_29,
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      width: 70,
+                      child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(0))),
+                          backgroundColor:
+                              index.isOdd ? ORANGE_WEB : RICH_BLACK_FOGRA_29,
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color:
+                              index.isEven ? ORANGE_WEB : RICH_BLACK_FOGRA_29,
+                        ),
+                        onPressed: () {},
                       ),
-                      child: Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: index.isEven ? ORANGE_WEB : RICH_BLACK_FOGRA_29,
-                      ),
-                      onPressed: () {},
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       );
     });

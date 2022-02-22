@@ -13,17 +13,22 @@ class Index extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AppController>(builder: (ctr) {
+    return GetX<AppController>(builder: (ctr) {
       return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: ORANGE_WEB,
-          child: Icon(Icons.add),
-        ),
+        floatingActionButton: (ctr.pageIndex < 2)
+            ? FloatingActionButton(
+                onPressed: () {},
+                backgroundColor: ORANGE_WEB,
+                child: Icon(Icons.add),
+              )
+            : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         bottomNavigationBar: BottomNavyBar(
           selectedIndex: ctr.pageIndex,
-          onItemSelected: (index) => ctr.setPageIndex = index,
+          onItemSelected: (index) {
+            print(index);
+            ctr.pageIndex = index;
+          },
           backgroundColor: RICH_BLACK_FOGRA_29,
           items: [
             BottomNavyBarItem(
@@ -51,6 +56,10 @@ class Index extends StatelessWidget {
         backgroundColor: OXFORD_BLUE,
         body: PageView(
           controller: ctr.pageController,
+          onPageChanged: (index) {
+            print(index);
+            ctr.pageIndex = index;
+          },
           children: [
             HomePage(),
             CalendarPage(),

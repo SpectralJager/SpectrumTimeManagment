@@ -12,8 +12,9 @@ import 'package:stm/utils/Categories.dart';
 class AppController extends GetxController {
   List<Task> tasks = [];
   List<CategoryData> categoryData = [];
-  int pageIndex = 0;
-  PageController pageController = PageController();
+  var _pageIndex = 0.obs;
+  PageController pageController =
+      PageController(initialPage: 0, keepPage: true);
   final TaskStore _task_store = TaskStore();
   // var td = '00:00:00'.obs;
 
@@ -27,15 +28,15 @@ class AppController extends GetxController {
     this.getTasks();
     this.generateCategoryDataList();
 
-    await Future.delayed(Duration(seconds: 10), () => null);
+    await Future.delayed(Duration(seconds: 3), () => null);
     Get.off(() => Index());
   }
 
-  set setPageIndex(int index) {
-    this.pageIndex = index;
-    this.pageController.animateToPage(index,
-        duration: Duration(seconds: 1), curve: Curves.ease);
-    this.update();
+  int get pageIndex => this._pageIndex.value;
+  set pageIndex(int index) {
+    this._pageIndex.value = index;
+    this.pageController.animateToPage(this.pageIndex,
+        duration: Duration(milliseconds: 100), curve: Curves.ease);
   }
 
   void getTasks() async {

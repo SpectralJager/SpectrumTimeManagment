@@ -11,20 +11,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 30.0, right: 30.0, top: 40, bottom: 70),
-        child: Column(
-          children: [
-            ChartSection(),
-            Divider(
-              height: 20,
-              thickness: 4,
-              color: RICH_BLACK_FOGRA_29,
-            ),
-            CardListSection(),
-          ],
-        ),
+      child: Column(
+        children: [
+          ChartSection(),
+          SizedBox(
+            height: 20,
+          ),
+          CardListSection(),
+        ],
       ),
     );
   }
