@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:stm/models/categorydata.dart';
 import 'package:stm/models/database/taskStore.dart';
 import 'package:stm/models/task.dart';
@@ -11,8 +8,13 @@ import 'package:stm/utils/Categories.dart';
 
 class AppController extends GetxController {
   List<Task> tasks = [];
-  List<CategoryData> categoryData = [];
+  List<List<CategoryData>> categoryData = [
+    [],
+    [],
+    [],
+  ];
   var _pageIndex = 0.obs;
+  var _slideIndex = 0;
   PageController pageController =
       PageController(initialPage: 0, keepPage: true);
   final TaskStore _task_store = TaskStore();
@@ -39,6 +41,12 @@ class AppController extends GetxController {
         duration: Duration(milliseconds: 100), curve: Curves.ease);
   }
 
+  int get slideIndex => this._slideIndex;
+  set slideIndex(int index) {
+    this._slideIndex = index;
+    this.update();
+  }
+
   void getTasks() async {
     this.tasks = await this._task_store.fetchTasks();
     this.tasks = [
@@ -50,30 +58,42 @@ class AppController extends GetxController {
 
   void generateCategoryDataList() {
     var currentTime = DateTime.now();
-    var twentyFourHoursAgo = currentTime.subtract(Duration(hours: 24));
-    var durationAtAll = Duration();
-    var duration = Duration();
-    this.categoryData = Categories.values.map<CategoryData>((category) {
-      durationAtAll += duration;
-      duration = Duration();
-      for (int i = 0; i < this.tasks.length; i++) {
-        if (this.tasks[i].category != category) {
-          continue;
-        }
-        for (int j = 0; j < this.tasks[i].phases.length; j++) {
-          var phase = this.tasks[i].phases[j];
-          if (phase.start_time.isBefore(twentyFourHoursAgo) &&
-              phase.end_time.isAfter(twentyFourHoursAgo)) {
-            duration += phase.duration(start_point: twentyFourHoursAgo);
-          } else if (phase.start_time.isAfter(twentyFourHoursAgo) &&
-              phase.end_time.isBefore(currentTime)) {
-            duration += phase.duration();
+    var timeInt = [
+      24,
+      24 * 7,
+      24 * 30,
+    ];
+    var timeDiff = [
+      currentTime.subtract(Duration(hours: 24)),
+      currentTime.subtract(Duration(days: 7)),
+      currentTime.subtract(Duration(days: 30)),
+    ];
+    var durationAtAll, duration = Duration();
+    for (int i = 0; i < 3; i++) {
+      durationAtAll = Duration();
+      this.categoryData[i] = Categories.values.map<CategoryData>((category) {
+        durationAtAll += duration;
+        duration = Duration();
+        for (int i = 0; i < this.tasks.length; i++) {
+          if (this.tasks[i].category != category) {
+            continue;
+          }
+          for (int j = 0; j < this.tasks[i].phases.length; j++) {
+            var phase = this.tasks[i].phases[j];
+            if (phase.start_time.isBefore(timeDiff[i]) &&
+                phase.end_time.isAfter(timeDiff[i])) {
+              duration += phase.duration(start_point: timeDiff[i]);
+            } else if (phase.start_time.isAfter(timeDiff[i]) &&
+                phase.end_time.isBefore(currentTime)) {
+              duration += phase.duration();
+            }
           }
         }
-      }
-      return CategoryData(category: category, duration: duration);
-    }).toList();
-    this.categoryData.last.duration += Duration(hours: 24) - durationAtAll;
+        return CategoryData(category: category, duration: duration);
+      }).toList();
+      this.categoryData[i].last.duration +=
+          Duration(hours: timeInt[i]) - durationAtAll;
+    }
   }
 
   // void timeDiff() {

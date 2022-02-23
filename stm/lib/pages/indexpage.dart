@@ -1,11 +1,12 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:stm/controllers/appcontroller.dart';
 import 'package:stm/pages/calendarpage.dart';
 import 'package:stm/pages/helppage.dart';
 import 'package:stm/pages/homepage.dart';
 import 'package:stm/pages/settingspage.dart';
+import 'package:stm/pages/taskpage.dart';
 import 'package:stm/utils/appcolors.dart';
 
 class Index extends StatelessWidget {
@@ -17,7 +18,11 @@ class Index extends StatelessWidget {
       return Scaffold(
         floatingActionButton: (ctr.pageIndex < 2)
             ? FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (ctr.pageIndex == 0) {
+                    Get.to(() => Taskpage());
+                  }
+                },
                 backgroundColor: ORANGE_WEB,
                 child: Icon(Icons.add),
               )
@@ -26,7 +31,7 @@ class Index extends StatelessWidget {
         bottomNavigationBar: BottomNavyBar(
           selectedIndex: ctr.pageIndex,
           onItemSelected: (index) {
-            print(index);
+            // print(index);
             ctr.pageIndex = index;
           },
           backgroundColor: RICH_BLACK_FOGRA_29,
@@ -57,7 +62,7 @@ class Index extends StatelessWidget {
         body: PageView(
           controller: ctr.pageController,
           onPageChanged: (index) {
-            print(index);
+            // print(index);
             ctr.pageIndex = index;
           },
           children: [
