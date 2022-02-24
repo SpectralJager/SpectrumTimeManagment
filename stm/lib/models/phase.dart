@@ -24,7 +24,7 @@ class Phase {
     );
   }
 
-  Phase copyWith(int? index, DateTime? start_time, DateTime? end_time) {
+  Phase copyWith({int? index, DateTime? start_time, DateTime? end_time}) {
     return Phase(
       index: index ?? this.index,
       start_time: start_time ?? this.start_time,

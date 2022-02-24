@@ -49,11 +49,12 @@ class AppController extends GetxController {
 
   void getTasks() async {
     this.tasks = await this._task_store.fetchTasks();
-    this.tasks = [
-      Task(
-          id: 1, name: "test1", category: Categories.entertainment, phases: []),
-      Task(id: 2, name: "test2", category: Categories.work, phases: []),
-    ];
+    print(tasks);
+    // this.tasks = [
+    //   Task(
+    //       id: 1, name: "test1", category: Categories.entertainment, phases: []),
+    //   Task(id: 2, name: "test2", category: Categories.work, phases: []),
+    // ];
   }
 
   void generateCategoryDataList() {

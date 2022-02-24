@@ -2,6 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stm/controllers/appcontroller.dart';
+import 'package:stm/controllers/taskcontroller.dart';
 import 'package:stm/pages/calendarpage.dart';
 import 'package:stm/pages/helppage.dart';
 import 'package:stm/pages/homepage.dart';
@@ -20,6 +21,8 @@ class Index extends StatelessWidget {
             ? FloatingActionButton(
                 onPressed: () {
                   if (ctr.pageIndex == 0) {
+                    var taskCtr = Get.put(TaskController());
+                    taskCtr.createTask();
                     Get.to(() => Taskpage());
                   }
                 },

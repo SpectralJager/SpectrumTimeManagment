@@ -9,9 +9,10 @@ class TaskStore extends DB {
   late final StoreRef _task_store;
 
   @override
-  void init({required String db_name}) {
-    super.init(db_name: db_name);
+  Future init({required String db_name}) async {
+    await super.init(db_name: db_name);
     this._task_store = intMapStoreFactory.store("task_store");
+    return Future.delayed(Duration(seconds: 10));
   }
 
   Future<List<Task>> fetchTasks() async {

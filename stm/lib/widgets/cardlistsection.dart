@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stm/controllers/appcontroller.dart';
 import 'package:stm/controllers/taskcontroller.dart';
 import 'package:stm/models/task.dart';
 import 'package:stm/pages/splashpage.dart';
-import 'package:stm/pages/taskpage.dart';
 import 'package:stm/utils/Categories.dart';
 import 'package:stm/utils/appcolors.dart';
 
