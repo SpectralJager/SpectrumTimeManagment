@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:stm/pages/splashpage.dart';
 
 void main() {
   runApp(const STM());
@@ -13,7 +12,6 @@ class STM extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Spectrum Time Managment",
-      home: SplashPage(),
       debugShowCheckedModeBanner: false,
     );
   }
