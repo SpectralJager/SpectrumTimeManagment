@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stm/controlers/appcontroller.dart';
-
-import 'taskpage.dart';
-import 'utils/drawer.dart';
-import 'utils/appbar.dart';
+import 'package:stm/models/task.dart';
+import 'package:stm/pages/taskpage.dart';
+import 'package:stm/pages/utils/drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,10 +12,30 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var AppCtr = Get.find<AppController>();
+
     return Scaffold(
-      appBar: appBar,
+      appBar: AppBar(
+        backgroundColor: AppCtr.appBarBgColor,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.to(() => TaskPage(
+                    task: Task(
+                        id: 0,
+                        name: '',
+                        bgColor: Colors.white,
+                        txtColor: Colors.black,
+                        phases: [])));
+              },
+              icon: Icon(Icons.add),
+              iconSize: 25),
+          SizedBox(
+            width: 10,
+          ),
+        ],
+      ),
       drawer: drawer,
-      backgroundColor: AppCtr.settings.appBgColor,
+      backgroundColor: AppCtr.appBgColor,
       body: GetBuilder<AppController>(builder: (ctr) {
         return Column(children: [
           Expanded(
@@ -36,13 +55,11 @@ class HomePage extends StatelessWidget {
                       child: ListTile(
                         title: Text(
                           task.name,
-                          style: GoogleFonts.oswald(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                          style: AppCtr.homeCardTitleStyle,
                         ),
                         subtitle: Text(
                           'Этапов (всего): ${task.phases.length}\nЗатрачено (всего): ${task.phasesTime()} минут.',
-                          style: GoogleFonts.openSans(
-                              fontSize: 14, fontWeight: FontWeight.w300),
+                          style: AppCtr.homeCardSubTitleStyle,
                         ),
                         textColor: task.txtColor,
                       ),

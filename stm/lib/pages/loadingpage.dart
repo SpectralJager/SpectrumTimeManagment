@@ -10,13 +10,13 @@ class LoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var AppCtr = Get.find<AppController>();
     return Scaffold(
-      backgroundColor: AppCtr.settings.appBgColor,
+      backgroundColor: AppCtr.appBgColor,
       body: Center(
         child: SizedBox(
           width: 80,
           height: 80,
           child: SpinKitSquareCircle(
-            color: AppCtr.settings.appTxtColor,
+            color: AppCtr.appTxtColor,
           ),
         ),
       ),

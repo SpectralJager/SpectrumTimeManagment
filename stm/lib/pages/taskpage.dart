@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:stm/controlers/appcontroller.dart';
 import 'package:stm/controlers/taskcontroller.dart';
 import 'package:stm/pages/phasepage.dart';
-import 'package:stm/pages/utils/appbar.dart';
-import 'package:stm/pages/utils/drawer.dart';
 
 class TaskPage extends StatelessWidget {
   final task;
@@ -18,7 +16,7 @@ class TaskPage extends StatelessWidget {
     var TaskCtr = Get.put(TaskController(task: task));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppCtr.settings.appBarBgColor,
+        backgroundColor: AppCtr.appBarBgColor,
         actions: [
           Container(
             padding: EdgeInsets.only(right: 30, left: 30),
@@ -39,7 +37,7 @@ class TaskPage extends StatelessWidget {
         },
         child: Icon(Icons.save),
       ),
-      backgroundColor: AppCtr.settings.appBgColor,
+      backgroundColor: AppCtr.appBgColor,
       body: GetBuilder<TaskController>(builder: (ctr) {
         return Column(
           children: [
@@ -52,7 +50,7 @@ class TaskPage extends StatelessWidget {
                       children: [
                         Text(
                           "Название: ",
-                          style: AppCtr.settings.taskLabelStyle,
+                          style: AppCtr.taskLabelStyle,
                         ),
                         SizedBox(
                           width: 10,
@@ -74,7 +72,7 @@ class TaskPage extends StatelessWidget {
                       children: [
                         Text(
                           "Цвет фона: ",
-                          style: AppCtr.settings.taskLabelStyle,
+                          style: AppCtr.taskLabelStyle,
                         ),
                         SizedBox(
                           width: 10,
@@ -104,7 +102,7 @@ class TaskPage extends StatelessWidget {
                       children: [
                         Text(
                           "Цвет текста: ",
-                          style: AppCtr.settings.taskLabelStyle,
+                          style: AppCtr.taskLabelStyle,
                         ),
                         SizedBox(
                           width: 10,
@@ -131,7 +129,7 @@ class TaskPage extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      color: AppCtr.settings.appBarBgColor,
+                      color: AppCtr.appBarBgColor,
                       padding: EdgeInsets.all(5),
                       width: MediaQuery.of(context).size.width,
                       child: TextButton(

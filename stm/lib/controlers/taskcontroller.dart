@@ -29,6 +29,7 @@ class TaskController extends GetxController {
   void addPhase() async {
     this.task.phases.add(this.newPhase);
     this.update();
+    Get.back();
   }
 
   String phaseTime(Phase phase) {

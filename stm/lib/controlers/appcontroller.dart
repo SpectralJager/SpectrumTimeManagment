@@ -9,7 +9,8 @@ import 'package:sembast/sembast_io.dart';
 import 'package:path/path.dart';
 import 'package:sembast/sembast.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:stm/models/settings.dart';
+import 'package:stm/models/result.dart';
+import 'package:stm/pages/resultpage.dart';
 
 import '../models/task.dart';
 import '../pages/homepage.dart';
@@ -17,25 +18,39 @@ import '../pages/loadingpage.dart';
 
 class AppController extends GetxController {
   List<Task> tasks = [];
+  List<Result> results = [];
 
   late Database _db;
   late StoreRef _taskStore;
   late StoreRef _appStore;
 
-  Settings settings = Settings(
-    homeCardTitleStyle:
-        GoogleFonts.oswald(fontSize: 20, fontWeight: FontWeight.bold),
-    homeCardSubTitleStyle:
-        GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w300),
-    appBgColor: Color(0xffE9D8A6),
-    appTxtColor: Color(0xff001219),
-    appBarBgColor: Color(0xffEE9B00),
-    appBarTxtColor: Color(0xff001219),
-    drawerBgColor: Color(0xffBB3E03),
-    drawerTxtColor: Color(0xff001219),
-    taskLabelStyle:
-        GoogleFonts.oswald(fontSize: 20, fontWeight: FontWeight.bold),
+  //settings--
+  //  fonts--
+  var homeCardTitleStyle =
+      GoogleFonts.oswald(fontSize: 20, fontWeight: FontWeight.bold);
+  var homeCardSubTitleStyle =
+      GoogleFonts.openSans(fontSize: 14, fontWeight: FontWeight.w300);
+  var taskLabelStyle =
+      GoogleFonts.oswald(fontSize: 20, fontWeight: FontWeight.bold);
+  var phaseStyle = GoogleFonts.openSans(
+    fontSize: 30,
+    color: Color(0xffE9D8A6),
+    fontWeight: FontWeight.bold,
   );
+  var drawerHeaderStyle = GoogleFonts.oswald(
+      fontSize: 23, fontWeight: FontWeight.bold, color: Color(0xffE9D8A6));
+  var drawerItemStyle = GoogleFonts.openSans(
+      fontSize: 16, fontWeight: FontWeight.normal, color: Color(0xffE9D8A6));
+  //  --fonts
+  //  colors--
+  var appBgColor = Color(0xffE9D8A6);
+  var appTxtColor = Color(0xff001219);
+  var appBarBgColor = Color(0xffEE9B00);
+  var appBarTxtColor = Color(0xff001219);
+  var drawerBgColor = Color(0xffBB3E03);
+  var drawerTxtColor = Color(0xffE9D8A6);
+  //  --colors
+  //--settings
 
   @override
   void onInit() async {
@@ -158,5 +173,35 @@ class AppController extends GetxController {
     await this._taskStore.record(task.id).delete(this._db);
     await this.fetchTasks();
     Get.back();
+  }
+
+  void GenerateResults() {
+    Get.off(() => LoadingPage());
+    this.results = [];
+    var temp = DateTime.now();
+    var currentDay = DateTime(temp.year, temp.month, temp.day);
+    this.tasks.forEach((task) {
+      var time = 0;
+      for (int i = 0; i < task.phases.length; i++) {
+        var phase = task.phases[i];
+        if (currentDay.isAfter(phase.startTime) &&
+            currentDay.isBefore(phase.endTime)) {
+          time += phase.endTime.difference(currentDay).inMinutes;
+        } else if (currentDay.isBefore(phase.startTime)) {
+          time += phase.endTime.difference(phase.startTime).inMinutes;
+        }
+      }
+      if (time != 0) {
+        var result = Result(
+            name: task.name,
+            subname: 'Затрачено $time минут',
+            time: time,
+            bgColor: task.bgColor,
+            txtColor: task.txtColor);
+        this.results.add(result);
+        this.results.sort((a, b) => b.time.compareTo(a.time));
+      }
+    });
+    Get.off(() => ResultPage(results: this.results));
   }
 }
