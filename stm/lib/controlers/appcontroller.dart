@@ -175,11 +175,9 @@ class AppController extends GetxController {
     Get.back();
   }
 
-  void GenerateResults() {
+  void GenerateResults(DateTime currentDay) {
     Get.off(() => LoadingPage());
     this.results = [];
-    var temp = DateTime.now();
-    var currentDay = DateTime(temp.year, temp.month, temp.day);
     this.tasks.forEach((task) {
       var time = 0;
       for (int i = 0; i < task.phases.length; i++) {
@@ -202,6 +200,6 @@ class AppController extends GetxController {
         this.results.sort((a, b) => b.time.compareTo(a.time));
       }
     });
-    Get.off(() => ResultPage(results: this.results));
+    Get.off(() => ResultPage(results: this.results, date: currentDay));
   }
 }

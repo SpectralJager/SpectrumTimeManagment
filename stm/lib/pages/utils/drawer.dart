@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:stm/controlers/appcontroller.dart';
 import 'package:stm/pages/homepage.dart';
 import 'package:stm/pages/resultpage.dart';
+import 'package:stm/pages/resultsforpage.dart';
 import 'package:stm/pages/settingspage.dart';
 
 var AppCtr = Get.find<AppController>();
@@ -35,27 +36,29 @@ var drawer = Drawer(
         leading: Icon(Icons.offline_pin, color: AppCtr.drawerTxtColor),
         title: Text('Итоги', style: AppCtr.drawerItemStyle),
         onTap: () {
-          AppCtr.GenerateResults();
+          var temp = DateTime.now();
+          var currentDay = DateTime(temp.year, temp.month, temp.day);
+          AppCtr.GenerateResults(currentDay);
         },
       ),
       Divider(
         thickness: 2,
         color: AppCtr.drawerTxtColor,
       ),
-      // ListTile(
-      //   leading: Icon(
-      //     Icons.settings,
-      //     color: AppCtr.drawerTxtColor,
-      //   ),
-      //   title: Text('Настройки', style: AppCtr.drawerItemStyle),
-      //   onTap: () {
-      //     Get.off(() => SettingsPage());
-      //   },
-      // ),
-      // Divider(
-      //   thickness: 2,
-      //   color: AppCtr.drawerTxtColor,
-      // ),
+      ListTile(
+        leading: Icon(
+          Icons.offline_share,
+          color: AppCtr.drawerTxtColor,
+        ),
+        title: Text('Итоги за...', style: AppCtr.drawerItemStyle),
+        onTap: () {
+          Get.off(() => ResultsForPage());
+        },
+      ),
+      Divider(
+        thickness: 2,
+        color: AppCtr.drawerTxtColor,
+      ),
       ListTile(
         leading: Icon(
           Icons.exit_to_app,
