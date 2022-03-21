@@ -1,23 +1,27 @@
-import 'package:stm/models/phase.dart';
-import 'package:stm/utils/Categories.dart';
+import 'package:flutter/material.dart';
+
+import 'phase.dart';
 
 class Task {
   final int id;
   final String name;
-  final Categories category;
   final List<Phase> phases;
+  final Color bgColor;
+  final Color txtColor;
 
   Task(
       {required this.id,
       required this.name,
-      required this.category,
-      required this.phases}) {}
+      required this.phases,
+      required this.bgColor,
+      required this.txtColor}) {}
 
   Map<String, dynamic> toMap() {
     return {
       "name": this.name,
-      "category": this.category.name,
       "phases": this.phases.map((element) => element.toMap()).toList(),
+      "bgColor": this.bgColor.hashCode,
+      "txtColor": this.txtColor.hashCode,
     };
   }
 
@@ -26,22 +30,36 @@ class Task {
     for (int i = 0; i < map['phases'].length; i++) {
       tempPhases.add(Phase.fromMap(map['phases'][i]));
     }
-    Categories tempCategory = Categories.values
-        .firstWhere((element) => element.name == map['category']);
     return Task(
       id: id,
       name: map['name'],
-      category: tempCategory,
       phases: tempPhases,
+      bgColor: Color(map['bgColor']),
+      txtColor: Color(map['txtColor']),
     );
   }
 
   Task copyWith(
-      {int? id, String? name, Categories? category, List<Phase>? phases}) {
+      {int? id,
+      String? name,
+      List<Phase>? phases,
+      Color? bgColor,
+      Color? txtColor}) {
     return Task(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        category: category ?? this.category,
-        phases: phases ?? [...this.phases]);
+      id: id ?? this.id,
+      name: name ?? this.name,
+      phases: phases ?? [...this.phases],
+      bgColor: bgColor ?? this.bgColor,
+      txtColor: txtColor ?? this.txtColor,
+    );
+  }
+
+  int phasesTime() {
+    int temp = 0;
+    for (int i = 0; i < this.phases.length; i++) {
+      var tempPhase = this.phases[i];
+      temp += tempPhase.endTime.difference(tempPhase.startTime).inMinutes;
+    }
+    return temp;
   }
 }
