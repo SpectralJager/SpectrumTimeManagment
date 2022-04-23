@@ -1,22 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stm/controlers/appcontroller.dart';
+import 'package:stm/pages/utils/utils.dart';
 
-class LoadingPage extends StatelessWidget {
+class LoadingPage extends GetView<AppController> {
   const LoadingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var AppCtr = Get.find<AppController>();
     return Scaffold(
-      backgroundColor: AppCtr.appBgColor,
-      body: Center(
+      body: bgWidget(
+        bgImage: "assets/images/bg.jpg",
+        overlayColor: Colors.black12,
         child: SizedBox(
-          width: 80,
-          height: 80,
-          child: SpinKitSquareCircle(
-            color: AppCtr.appTxtColor,
+          height: 500,
+          width: 200,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SpinKitFoldingCube(
+                color: Colors.white70,
+                size: 100,
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Text(
+                "Loading",
+                style: GoogleFonts.oswald(
+                  color: Colors.white,
+                  fontSize: 38,
+                  letterSpacing: 2,
+                ),
+              ),
+            ],
           ),
         ),
       ),

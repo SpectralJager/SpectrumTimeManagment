@@ -45,6 +45,7 @@ flutter:
   assets:
     - assets/thats-no-moon.riv
     - assets/nothing.riv
+    - assets/images/bg.jpg
 
   # fonts:
   #   - family: Schyler
