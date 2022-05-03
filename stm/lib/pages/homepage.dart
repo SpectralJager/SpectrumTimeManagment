@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:stm/pages/utils/gridcards.dart';
 import 'package:stm/pages/utils/utils.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'utils/calendar.dart';
+import 'utils/chart.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,7 +15,7 @@ class HomePage extends StatelessWidget {
         onPressed: () {},
         child: Icon(
           Icons.menu,
-          color: Colors.black,
+          color: Colors.white,
         ),
         backgroundColor: Colors.red,
       ),
@@ -29,26 +31,10 @@ class HomePage extends StatelessWidget {
               color: Colors.white,
             ),
             Chart(data: data),
-            Expanded(
-              child: GridCards(data: data),
-            ),
+            gridCards(),
           ],
         ),
       ),
     );
   }
-}
-
-final data = [
-  _ChartData('Work', 12),
-  _ChartData('Sport', 15),
-  _ChartData('Sex', 30),
-  _ChartData('Studing', 6.4),
-];
-
-class _ChartData {
-  _ChartData(this.x, this.y);
-
-  final String x;
-  final double y;
 }
