@@ -1,37 +1,45 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stm/controlers/appcontroller.dart';
 import 'package:stm/pages/homepage.dart';
-import 'package:stm/pages/loadingpage.dart';
+import 'package:stm/pages/starttaskpage.dart';
 import 'package:stm/pages/taskspage.dart';
 
 var AppCtr = Get.find<AppController>();
 var drawer = Drawer(
-  backgroundColor: Colors.black54,
+  backgroundColor: Colors.black87,
   child: ListView(
-    padding: EdgeInsets.zero,
+    padding: EdgeInsets.only(top: 40),
     children: [
       DrawerHeader(
-        child: Center(
-          child: Text(
-            'Spectrum Time Managment',
-            style: GoogleFonts.oswald(
-              color: Colors.redAccent,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+        child: Column(
+          children: [
+            Expanded(
+              child: SvgPicture.asset('assets/images/drawer_img.svg'),
             ),
-          ),
+            Text(
+              'Spectrum Time Managment',
+              style: GoogleFonts.oswald(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
       Divider(
-        thickness: 2,
-        color: Colors.white,
+        thickness: 1,
+        color: Colors.white70,
       ),
       ListTile(
-        leading: Icon(Icons.home, color: Colors.red),
+        leading: Icon(
+          Icons.home,
+          color: Colors.red,
+          size: 32,
+        ),
         title: Text(
           'Home page',
           style: GoogleFonts.openSans(
@@ -46,7 +54,11 @@ var drawer = Drawer(
         },
       ),
       ListTile(
-        leading: Icon(Icons.list_alt, color: Colors.red),
+        leading: Icon(
+          Icons.list_alt,
+          color: Colors.red,
+          size: 32,
+        ),
         title: Text(
           'Tasks',
           style: GoogleFonts.openSans(
@@ -60,7 +72,11 @@ var drawer = Drawer(
         },
       ),
       ListTile(
-        leading: Icon(Icons.play_arrow, color: Colors.red),
+        leading: Icon(
+          Icons.play_arrow,
+          color: Colors.red,
+          size: 32,
+        ),
         title: Text(
           'Start task',
           style: GoogleFonts.openSans(
@@ -69,7 +85,9 @@ var drawer = Drawer(
             fontSize: 16,
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          Get.to(() => StartTaskPage());
+        },
       ),
     ],
   ),

@@ -19,7 +19,7 @@ class HomePage extends GetView<AppController> {
           heroTag: null,
           onPressed: () => Scaffold.of(context).openDrawer(),
           child: const Icon(
-            Icons.hive_sharp,
+            Icons.apps,
             color: Colors.white,
             size: 28,
           ),
