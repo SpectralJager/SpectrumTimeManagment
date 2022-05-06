@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class ChartData {
   ChartData(this.x, this.y);
