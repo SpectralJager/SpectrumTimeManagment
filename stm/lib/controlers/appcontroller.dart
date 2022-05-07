@@ -1,6 +1,25 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AppController extends GetxController {}
+class AppController extends GetxController with GetTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> animation;
+  @override
+  void onInit() {
+    super.onInit();
+
+    this._controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 60),
+      value: 0.0,
+      lowerBound: 0.0,
+      upperBound: 1.0,
+    );
+    this.animation =
+        CurvedAnimation(parent: this._controller, curve: Curves.linear);
+    this._controller.repeat(reverse: false);
+  }
+}
   // List<Task> tasks = [];
   // List<Result> results = [];
 

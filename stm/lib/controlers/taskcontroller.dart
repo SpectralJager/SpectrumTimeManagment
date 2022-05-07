@@ -6,11 +6,11 @@ import 'package:stm/models/phase.dart';
 import '../models/task.dart';
 
 class TaskController extends GetxController {
-  Task task;
+  late Task task;
   late Phase newPhase;
   var td = '00:00:00'.obs;
 
-  TaskController({required this.task});
+  // TaskController({required this.task});
 
   set changeName(String name) {
     this.task = this.task.copyWith(name: name);

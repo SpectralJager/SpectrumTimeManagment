@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stm/controlers/appcontroller.dart';
+import 'package:stm/pages/tasktimerpage.dart';
 
 import 'utils/drawer.dart';
 import 'utils/utils.dart';
@@ -43,16 +44,19 @@ class StartTaskPage extends GetView<AppController> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Transform.rotate(
-                    angle: 0,
+                  RotationTransition(
+                    turns: controller.animation,
                     child: SvgPicture.asset(
                       'assets/images/start_btn_bg.svg',
                       width: Get.size.width,
                       color: Colors.green,
                     ),
                   ),
-                  SvgPicture.asset(
-                    'assets/images/start_btn.svg',
+                  GestureDetector(
+                    onTap: () => Get.to(() => TaskTimerPage()),
+                    child: SvgPicture.asset(
+                      'assets/images/start_btn.svg',
+                    ),
                   ),
                 ],
               ),

@@ -21,7 +21,7 @@ dependencies:
   path_provider: ^2.0.8
   flutter_spinkit: ^5.1.0
   permission_handler: ^8.3.0
-  flutter_colorpicker: ^1.0.3
+  flutter_colorpicker: ^1.0.3 
   rive: ^0.8.4
   table_calendar: ^3.0.4
   syncfusion_flutter_charts: ^20.1.50
@@ -53,5 +53,4 @@ flutter:
     - assets/images/drawer_img.svg 
     - assets/images/start_btn.svg 
     - assets/images/start_btn_bg.svg 
-    - assets/images/timer_bg.svg 
     - assets/images/timer_tree.svg 
