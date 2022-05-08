@@ -8,7 +8,6 @@ import '../models/task.dart';
 class TaskController extends GetxController {
   late Task task;
   late Phase newPhase;
-  var td = '00:00:00'.obs;
 
   // TaskController({required this.task});
 
@@ -39,11 +38,5 @@ class TaskController extends GetxController {
   String phaseDuration(Phase phase) {
     var duration = phase.endTime.difference(phase.startTime);
     return "${duration.inMinutes} minutes";
-  }
-
-  void timeDiff() {
-    var duration = DateTime.now().difference(this.newPhase.startTime);
-    td.value =
-        "${duration.inHours.toString().padLeft(2, '0')}:${duration.inMinutes.remainder(60).toString().padLeft(2, '0')}:${duration.inSeconds.remainder(60).toString().padLeft(2, '0')}";
   }
 }

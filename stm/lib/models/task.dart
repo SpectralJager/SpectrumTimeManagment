@@ -5,23 +5,24 @@ import 'phase.dart';
 class Task {
   final int id;
   final String name;
+  final String description;
   final List<Phase> phases;
   final Color bgColor;
-  final Color txtColor;
 
-  Task(
-      {required this.id,
-      required this.name,
-      required this.phases,
-      required this.bgColor,
-      required this.txtColor}) {}
+  Task({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.phases,
+    required this.bgColor,
+  }) {}
 
   Map<String, dynamic> toMap() {
     return {
       "name": this.name,
+      "description": this.description,
       "phases": this.phases.map((element) => element.toMap()).toList(),
       "bgColor": this.bgColor.hashCode,
-      "txtColor": this.txtColor.hashCode,
     };
   }
 
@@ -33,9 +34,9 @@ class Task {
     return Task(
       id: id,
       name: map['name'],
+      description: map['description'],
       phases: tempPhases,
       bgColor: Color(map['bgColor']),
-      txtColor: Color(map['txtColor']),
     );
   }
 
@@ -48,9 +49,9 @@ class Task {
     return Task(
       id: id ?? this.id,
       name: name ?? this.name,
+      description: description ?? this.description,
       phases: phases ?? [...this.phases],
       bgColor: bgColor ?? this.bgColor,
-      txtColor: txtColor ?? this.txtColor,
     );
   }
 

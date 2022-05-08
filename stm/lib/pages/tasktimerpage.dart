@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stm/controlers/appcontroller.dart';
-import 'package:stm/controlers/taskcontroller.dart';
+import 'package:stm/controlers/timercontroller.dart';
 
 import 'utils/drawer.dart';
 import 'utils/utils.dart';
@@ -13,7 +13,7 @@ class TaskTimerPage extends GetView<AppController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put<TaskController>(TaskController());
+    Get.put<TimerController>(TimerController());
     return Scaffold(
       drawer: drawer,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -63,7 +63,7 @@ class TaskTimerPage extends GetView<AppController> {
             Container(
               width: Get.size.width,
               padding: EdgeInsets.symmetric(horizontal: 30),
-              child: GetBuilder<TaskController>(builder: (ctr) {
+              child: GetBuilder<TimerController>(builder: (ctr) {
                 var timer = ctr.td.value.split(':');
                 var headers = [
                   'hours',

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stm/controlers/appcontroller.dart';
+import 'package:stm/pages/taskpage.dart';
 
 import 'utils/drawer.dart';
 import 'utils/utils.dart';
@@ -23,7 +24,7 @@ class TasksPage extends GetView<AppController> {
             children: [
               FloatingActionButton(
                 heroTag: null,
-                onPressed: () {},
+                onPressed: () => Get.to(() => TaskPage()),
                 child: const Icon(
                   Icons.add,
                   color: Colors.white,
