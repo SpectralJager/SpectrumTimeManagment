@@ -13,15 +13,11 @@ class TaskController extends GetxController {
 
   set changeName(String name) {
     this.task = this.task.copyWith(name: name);
+    this.update();
   }
 
   set changeBgColor(Color color) {
     this.task = this.task.copyWith(bgColor: color);
-    this.update();
-  }
-
-  set changeTxtColor(Color color) {
-    this.task = this.task.copyWith(txtColor: color);
     this.update();
   }
 

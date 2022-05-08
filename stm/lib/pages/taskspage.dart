@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rive/rive.dart';
 import 'package:stm/controlers/appcontroller.dart';
+import 'package:stm/models/task.dart';
 import 'package:stm/pages/taskpage.dart';
 
 import 'utils/drawer.dart';
@@ -24,7 +26,16 @@ class TasksPage extends GetView<AppController> {
             children: [
               FloatingActionButton(
                 heroTag: null,
-                onPressed: () => Get.to(() => TaskPage()),
+                onPressed: () => Get.to(
+                  () => TaskPage(
+                    task: Task(
+                        id: 0,
+                        name: '',
+                        description: '',
+                        phases: [],
+                        bgColor: Colors.red),
+                  ),
+                ),
                 child: const Icon(
                   Icons.add,
                   color: Colors.white,
@@ -79,78 +90,104 @@ class TasksPage extends GetView<AppController> {
                 ),
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (ctx, index) {
-                  var item = data[index];
-                  return Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(16)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.red,
-                          spreadRadius: 2,
-                          blurRadius: 8,
-                          offset: Offset(2, 2),
+            controller.allTasks.length == 0
+                ? Column(
+                    children: [
+                      Container(
+                        width: Get.size.width,
+                        height: Get.size.width,
+                        child: RiveAnimation.asset('assets/nothing.riv'),
+                      ),
+                      Text(
+                        'Nothing...',
+                        style: GoogleFonts.oswald(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.redAccent,
+                          letterSpacing: 6,
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red,
-                          ),
-                          child: Center(
-                            child: Text(
-                              item.x[0],
-                              style: GoogleFonts.poppins(
+                      ),
+                    ],
+                  )
+                : GetBuilder<AppController>(
+                    builder: (ctr) {
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: ctr.allTasks.length,
+                          itemBuilder: (ctx, index) {
+                            var item = ctr.allTasks[index];
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 12),
+                              decoration: const BoxDecoration(
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.red,
+                                    spreadRadius: 2,
+                                    blurRadius: 8,
+                                    offset: Offset(2, 2),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.red,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        item.name[0],
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        item.name,
+                                        style: GoogleFonts.oswald(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Total: ' +
+                                            item.totalDuration.toString() +
+                                            ' min. | Phases: ' +
+                                            item.phases.length.toString(),
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                          },
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.x,
-                              style: GoogleFonts.oswald(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'Total: ' +
-                                  item.y.toString() +
-                                  ' min. | Phases: 2',
-                              style: GoogleFonts.openSans(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
+                      );
+                    },
+                  ),
           ],
         ),
       ),

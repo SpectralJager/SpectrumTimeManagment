@@ -40,12 +40,13 @@ class Task {
     );
   }
 
-  Task copyWith(
-      {int? id,
-      String? name,
-      List<Phase>? phases,
-      Color? bgColor,
-      Color? txtColor}) {
+  Task copyWith({
+    int? id,
+    String? name,
+    String? description,
+    List<Phase>? phases,
+    Color? bgColor,
+  }) {
     return Task(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -60,6 +61,14 @@ class Task {
     for (int i = 0; i < this.phases.length; i++) {
       var tempPhase = this.phases[i];
       temp += tempPhase.endTime.difference(tempPhase.startTime).inMinutes;
+    }
+    return temp;
+  }
+
+  int get totalDuration {
+    var temp = 0;
+    for (var item in this.phases) {
+      temp += item.duration;
     }
     return temp;
   }
