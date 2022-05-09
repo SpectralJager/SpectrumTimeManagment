@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stm/controlers/appcontroller.dart';
 import 'package:stm/controlers/taskcontroller.dart';
 import 'package:stm/models/task.dart';
 import 'package:stm/pages/utils/utils.dart';
@@ -16,8 +17,11 @@ class TaskPage extends GetView<TaskController> {
   @override
   Widget build(BuildContext context) {
     Get.put(TaskController());
+    var appController = Get.find<AppController>();
     controller.task = this.task;
-    var textFieldController = TextEditingController(text: controller.task.name);
+    var nameFieldController = TextEditingController(text: controller.task.name);
+    var descriptionFieldController =
+        TextEditingController(text: controller.task.description);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -33,7 +37,7 @@ class TaskPage extends GetView<TaskController> {
               children: [
                 FloatingActionButton(
                   heroTag: null,
-                  onPressed: () => Get.back(),
+                  onPressed: () => appController.deleteTask(controller.task),
                   child: const Icon(
                     Icons.delete,
                     color: Colors.white,
@@ -43,7 +47,7 @@ class TaskPage extends GetView<TaskController> {
                 ),
                 FloatingActionButton(
                   heroTag: null,
-                  onPressed: () => Get.back(),
+                  onPressed: () => appController.saveTask(controller.task),
                   child: const Icon(
                     Icons.save,
                     color: Colors.white,
@@ -60,12 +64,14 @@ class TaskPage extends GetView<TaskController> {
         bgImage: "assets/images/bg.jpg",
         overlayColor: Colors.black54,
         child: Padding(
-          padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: GetBuilder<TaskController>(
             builder: (_) {
-              log(_.task.name);
               return ListView(
                 children: [
+                  SizedBox(
+                    height: 40,
+                  ),
                   const Label(text: 'Title'),
                   const SizedBox(
                     height: 10,
@@ -77,7 +83,7 @@ class TaskPage extends GetView<TaskController> {
                         Expanded(
                           child: TextFormField(
                             // initialValue: _.task.name,
-                            controller: textFieldController,
+                            controller: nameFieldController,
                             onChanged: (value) {
                               _.changeName = value;
                             },
@@ -102,7 +108,7 @@ class TaskPage extends GetView<TaskController> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            textFieldController.clear();
+                            nameFieldController.clear();
                           },
                           child: Container(
                             margin: EdgeInsets.only(left: 10),
@@ -135,6 +141,7 @@ class TaskPage extends GetView<TaskController> {
                           borderRadius: BorderRadius.all(
                             Radius.circular(20),
                           ),
+                          border: Border.all(color: Colors.white, width: 2),
                         ),
                       ),
                       GestureDetector(
@@ -172,23 +179,33 @@ class TaskPage extends GetView<TaskController> {
                         Expanded(
                           child: SizedBox(),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          width: 48,
-                          height: 48,
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            Icons.clear,
-                            color: Colors.white,
-                            size: 30,
+                        GestureDetector(
+                          onTap: () {
+                            _.changeDescription = '';
+                            descriptionFieldController.clear();
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            width: 48,
+                            height: 48,
+                            alignment: Alignment.center,
+                            child: const Icon(
+                              Icons.clear,
+                              color: Colors.white,
+                              size: 30,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
                   TextFormField(
+                    controller: descriptionFieldController,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
+                    onChanged: (value) {
+                      _.changeDescription = value;
+                    },
                     cursorColor: Colors.white,
                     style:
                         GoogleFonts.openSans(color: Colors.white, fontSize: 16),
@@ -204,6 +221,66 @@ class TaskPage extends GetView<TaskController> {
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Label(text: "Phases"),
+                  for (var item in _.task.phases.reversed)
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                '# ' + (item.index + 1).toString(),
+                                style: GoogleFonts.oswald(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Container(
+                                width: 5,
+                                height: 40,
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                color: Colors.redAccent,
+                              ),
+                              Text(
+                                'Duration: ' + _.phaseDuration(item),
+                                style: GoogleFonts.oswald(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.timer,
+                                color: Colors.redAccent,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                _.phaseTime(item),
+                                style: GoogleFonts.openSans(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  SizedBox(
+                    height: 150,
                   ),
                 ],
               );

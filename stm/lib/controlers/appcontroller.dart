@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
+import 'package:stm/models/phase.dart';
 import 'package:stm/models/result.dart';
 import 'package:stm/models/task.dart';
 import 'package:stm/pages/homepage.dart';
@@ -34,6 +35,8 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
     this.initAnimation();
     await this.initDB();
     await this.fetchTasks();
+    this.fetchNDayTasks(this.selectedDay);
+    await Future.delayed(Duration(seconds: 3));
     Get.off(() => HomePage());
   }
 
@@ -67,6 +70,7 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
         .map((element) => Task.fromMap(element.key, element.value))
         .toList();
     this.update();
+    log(this.allTasks.toString());
     return Future.delayed(Duration(seconds: 2));
   }
 
@@ -79,13 +83,17 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
     }
     await this.fetchTasks();
     Get.back();
+    this.update();
   }
 
   Future deleteTask(Task task) async {
-    Get.off(() => LoadingPage());
-    await this._taskStore.record(task.id).delete(this._db);
-    await this.fetchTasks();
+    if (task.id != 0) {
+      Get.off(() => LoadingPage());
+      await this._taskStore.record(task.id).delete(this._db);
+      await this.fetchTasks();
+    }
     Get.back();
+    this.update();
   }
 
   void fetchNDayTasks(DateTime date) {
@@ -97,6 +105,8 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
         var phases = 0;
         for (int i = 0; i < task.phases.length; i++) {
           var phase = task.phases[i];
+          print(phase.startTime);
+          print(phase.endTime);
           if (this.selectedDay.isAfter(phase.startTime) &&
               this.selectedDay.isBefore(phase.endTime)) {
             time += phase.endTime.difference(this.selectedDay).inMinutes;
@@ -119,7 +129,6 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
         }
       },
     );
-    log(this.selectedDay.toString());
     this.update();
   }
 }

@@ -49,7 +49,7 @@ var drawer = Drawer(
           ),
         ),
         onTap: () {
-          // create toHomePage()
+          AppCtr.fetchNDayTasks(AppCtr.selectedDay);
           Get.off(() => HomePage());
         },
       ),

@@ -16,19 +16,18 @@ class TaskController extends GetxController {
     this.update();
   }
 
+  set changeDescription(String description) {
+    this.task = this.task.copyWith(description: description);
+    this.update();
+  }
+
   set changeBgColor(Color color) {
     this.task = this.task.copyWith(bgColor: color);
     this.update();
   }
 
-  void addPhase() async {
-    this.task.phases.add(this.newPhase);
-    this.update();
-    Get.back();
-  }
-
   String phaseTime(Phase phase) {
-    return "${DateFormat('MM.dd, kk:mm').format(phase.startTime)} to ${DateFormat('MM.dd, kk:mm').format(phase.endTime)}";
+    return "${DateFormat('dd MMM, kk:mm').format(phase.startTime)} - ${DateFormat('dd MMM, kk:mm').format(phase.endTime)}";
   }
 
   String phaseDuration(Phase phase) {
