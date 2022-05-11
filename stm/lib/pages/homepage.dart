@@ -184,8 +184,12 @@ class HomePage extends GetView<AppController> {
                             } else {
                               var item = ctr.dayTasks[index - 1];
                               return GestureDetector(
-                                onTap: (() =>
-                                    Get.to(() => TaskPage(task: item.task))),
+                                onTap: (() => Get.to(
+                                      () => TaskPage(task: item.task),
+                                      transition:
+                                          Transition.rightToLeftWithFade,
+                                      duration: Duration(milliseconds: 500),
+                                    )),
                                 child: Container(
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 8),

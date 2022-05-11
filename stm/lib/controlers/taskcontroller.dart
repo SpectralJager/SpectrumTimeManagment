@@ -26,6 +26,14 @@ class TaskController extends GetxController {
     this.update();
   }
 
+  void deletePhase(Phase phase) {
+    this.task.phases.remove(phase);
+    for (var i = 0; i < this.task.phases.length; i++) {
+      this.task.phases[i].index = i;
+    }
+    this.update();
+  }
+
   String phaseTime(Phase phase) {
     return "${DateFormat('dd MMM, kk:mm').format(phase.startTime)} - ${DateFormat('dd MMM, kk:mm').format(phase.endTime)}";
   }

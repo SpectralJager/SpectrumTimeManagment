@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
   List<Task> allTasks = [];
   List<Result> dayTasks = [];
 
-  DateTime selectedDay = DateTime.now();
+  late DateTime selectedDay;
 
   late Database _db;
   late StoreRef _taskStore;
@@ -35,7 +36,8 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
     this.initAnimation();
     await this.initDB();
     await this.fetchTasks();
-    this.fetchNDayTasks(this.selectedDay);
+    await this.fetchNDayTasks(DateFormat('yyyy-MM-dd')
+        .parse(DateFormat('yyyy-MM-dd').format(DateTime.now())));
     await Future.delayed(Duration(seconds: 3));
     Get.off(() => HomePage());
   }
@@ -70,7 +72,6 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
         .map((element) => Task.fromMap(element.key, element.value))
         .toList();
     this.update();
-    log(this.allTasks.toString());
     return Future.delayed(Duration(seconds: 2));
   }
 
@@ -82,6 +83,7 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
       await this._taskStore.record(task.id).update(this._db, task.toMap());
     }
     await this.fetchTasks();
+    await this.fetchNDayTasks(this.selectedDay);
     Get.back();
     this.update();
   }
@@ -91,35 +93,48 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
       Get.off(() => LoadingPage());
       await this._taskStore.record(task.id).delete(this._db);
       await this.fetchTasks();
+      await this.fetchNDayTasks(this.selectedDay);
     }
     Get.back();
     this.update();
   }
 
-  void fetchNDayTasks(DateTime date) {
+  Future fetchNDayTasks(DateTime date) async {
     this.selectedDay = date;
     this.dayTasks = [];
+    log(this.selectedDay.toString());
     this.allTasks.forEach(
       (task) {
         var time = 0;
         var phases = 0;
         for (int i = 0; i < task.phases.length; i++) {
           var phase = task.phases[i];
-          print(phase.startTime);
-          print(phase.endTime);
           if (this.selectedDay.isAfter(phase.startTime) &&
               this.selectedDay.isBefore(phase.endTime)) {
             time += phase.endTime.difference(this.selectedDay).inMinutes;
             phases += 1;
-          } else if (this.selectedDay.isBefore(phase.startTime)) {
+          } else if (this.selectedDay.isBefore(phase.startTime) &&
+              this.selectedDay.add(Duration(days: 1)).isAfter(phase.endTime)) {
             time += phase.endTime.difference(phase.startTime).inMinutes;
+            phases += 1;
+          } else if (this.selectedDay.isBefore(phase.startTime) &&
+              this.selectedDay.add(Duration(days: 1)).isBefore(phase.endTime) &&
+              this
+                  .selectedDay
+                  .add(Duration(days: 1))
+                  .isAfter(phase.startTime)) {
+            time += this
+                .selectedDay
+                .add(Duration(days: 1))
+                .difference(phase.startTime)
+                .inMinutes;
             phases += 1;
           }
         }
         if (time != 0) {
           var result = Result(
             title: task.name,
-            subtitle: 'Total: $time min. | Phases: $phases',
+            subtitle: 'Spend: $time min. | Phases: $phases',
             time: time,
             bgColor: task.bgColor,
             task: task,
@@ -130,5 +145,6 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
       },
     );
     this.update();
+    return Future.delayed(Duration(seconds: 1));
   }
 }

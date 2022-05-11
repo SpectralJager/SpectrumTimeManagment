@@ -8,6 +8,7 @@ import 'package:stm/controlers/appcontroller.dart';
 import 'package:stm/controlers/timercontroller.dart';
 import 'package:stm/models/phase.dart';
 import 'package:stm/models/task.dart';
+import 'package:stm/pages/homepage.dart';
 
 import 'utils/drawer.dart';
 import 'utils/utils.dart';

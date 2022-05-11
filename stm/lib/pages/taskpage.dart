@@ -254,6 +254,23 @@ class TaskPage extends GetView<TaskController> {
                                 style: GoogleFonts.oswald(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
+                              Expanded(child: SizedBox()),
+                              GestureDetector(
+                                onTap: () => _.deletePhase(item),
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                           SizedBox(
