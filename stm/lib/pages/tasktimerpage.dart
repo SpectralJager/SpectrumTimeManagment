@@ -23,7 +23,6 @@ class TaskTimerPage extends GetView<TimerController> {
     Get.put<TimerController>(TimerController());
     var appController = Get.find<AppController>();
     var newPhase = Phase(
-      index: task.phases.length,
       description: '',
       startTime: DateTime.now(),
       endTime: DateTime.now(),

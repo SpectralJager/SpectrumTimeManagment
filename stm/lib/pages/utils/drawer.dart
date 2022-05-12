@@ -50,7 +50,11 @@ var drawer = Drawer(
         ),
         onTap: () {
           AppCtr.fetchNDayTasks(AppCtr.selectedDay);
-          Get.off(() => HomePage());
+          Get.off(
+            () => HomePage(),
+            duration: Duration(seconds: 1),
+            transition: Transition.rightToLeft,
+          );
         },
       ),
       ListTile(
@@ -68,7 +72,12 @@ var drawer = Drawer(
           ),
         ),
         onTap: () {
-          Get.off(() => TasksPage());
+          Get.off(
+            () => TasksPage(),
+            duration: Duration(seconds: 1),
+            transition: Transition.rightToLeft,
+            curve: Curves.easeIn,
+          );
         },
       ),
       ListTile(
@@ -86,7 +95,11 @@ var drawer = Drawer(
           ),
         ),
         onTap: () {
-          Get.to(() => StartTaskPage());
+          Get.to(
+            () => StartTaskPage(),
+            duration: Duration(seconds: 1),
+            transition: Transition.rightToLeft,
+          );
         },
       ),
     ],

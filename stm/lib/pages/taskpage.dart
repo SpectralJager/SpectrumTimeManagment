@@ -22,6 +22,7 @@ class TaskPage extends GetView<TaskController> {
     var nameFieldController = TextEditingController(text: controller.task.name);
     var descriptionFieldController =
         TextEditingController(text: controller.task.description);
+    var phases = this.task.phases;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -226,7 +227,7 @@ class TaskPage extends GetView<TaskController> {
                     height: 20,
                   ),
                   Label(text: "Phases"),
-                  for (var item in _.task.phases.reversed)
+                  for (var i = phases.length - 1; i >= 0; i--)
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       padding: EdgeInsets.all(16),
@@ -239,7 +240,7 @@ class TaskPage extends GetView<TaskController> {
                           Row(
                             children: [
                               Text(
-                                '# ' + (item.index + 1).toString(),
+                                '# ' + (i + 1).toString(),
                                 style: GoogleFonts.oswald(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -250,13 +251,13 @@ class TaskPage extends GetView<TaskController> {
                                 color: Colors.redAccent,
                               ),
                               Text(
-                                'Duration: ' + _.phaseDuration(item),
+                                'Duration: ' + _.phaseDuration(phases[i]),
                                 style: GoogleFonts.oswald(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               Expanded(child: SizedBox()),
                               GestureDetector(
-                                onTap: () => _.deletePhase(item),
+                                onTap: () => _.deletePhase(phases[i]),
                                 child: Container(
                                   width: 40,
                                   height: 40,
@@ -286,7 +287,7 @@ class TaskPage extends GetView<TaskController> {
                                 width: 10,
                               ),
                               Text(
-                                _.phaseTime(item),
+                                _.phaseTime(phases[i]),
                                 style: GoogleFonts.openSans(
                                   fontSize: 16,
                                 ),

@@ -22,7 +22,7 @@ class Task {
       "name": this.name,
       "description": this.description,
       "phases": this.phases.map((element) => element.toMap()).toList(),
-      "bgColor": this.bgColor.hashCode,
+      "bgColor": this.bgColor.value,
     };
   }
 
@@ -31,7 +31,7 @@ class Task {
     for (int i = 0; i < map['phases'].length; i++) {
       tempPhases.add(Phase.fromMap(map['phases'][i]));
     }
-    return Task(
+    return new Task(
       id: id,
       name: map['name'],
       description: map['description'],
@@ -47,7 +47,7 @@ class Task {
     List<Phase>? phases,
     Color? bgColor,
   }) {
-    return Task(
+    return new Task(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,

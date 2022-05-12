@@ -119,7 +119,7 @@ class TasksPage extends GetView<AppController> {
                             return GestureDetector(
                               onTap: () {
                                 Get.to(() => TaskPage(
-                                      task: item,
+                                      task: item.copyWith(),
                                     ));
                               },
                               child: Container(

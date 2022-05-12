@@ -27,10 +27,9 @@ class TaskController extends GetxController {
   }
 
   void deletePhase(Phase phase) {
-    this.task.phases.remove(phase);
-    for (var i = 0; i < this.task.phases.length; i++) {
-      this.task.phases[i].index = i;
-    }
+    var phases = this.task.phases;
+    phases.remove(phase);
+    this.task = this.task.copyWith(phases: phases);
     this.update();
   }
 

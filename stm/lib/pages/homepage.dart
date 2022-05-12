@@ -123,7 +123,7 @@ class HomePage extends GetView<AppController> {
                             style: GoogleFonts.oswald(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
-                              color: Colors.redAccent,
+                              color: Colors.white,
                               letterSpacing: 6,
                             ),
                           ),
@@ -185,7 +185,8 @@ class HomePage extends GetView<AppController> {
                               var item = ctr.dayTasks[index - 1];
                               return GestureDetector(
                                 onTap: (() => Get.to(
-                                      () => TaskPage(task: item.task),
+                                      () =>
+                                          TaskPage(task: item.task.copyWith()),
                                       transition:
                                           Transition.rightToLeftWithFade,
                                       duration: Duration(milliseconds: 500),

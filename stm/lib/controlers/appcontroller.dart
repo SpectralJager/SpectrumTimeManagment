@@ -33,13 +33,18 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
     if (await Permission.storage.request().isDenied) {
       exit(0);
     }
+    precacheImage(AssetImage('assets/images/bg.jpg'), Get.context!);
     this.initAnimation();
     await this.initDB();
     await this.fetchTasks();
     await this.fetchNDayTasks(DateFormat('yyyy-MM-dd')
         .parse(DateFormat('yyyy-MM-dd').format(DateTime.now())));
     await Future.delayed(Duration(seconds: 3));
-    Get.off(() => HomePage());
+    Get.off(
+      () => HomePage(),
+      duration: Duration(seconds: 3),
+      transition: Transition.fadeIn,
+    );
   }
 
   void initAnimation() {
@@ -76,7 +81,18 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
   }
 
   Future saveTask(Task task) async {
+    if (task.name == '') {
+      Get.snackbar(
+        'Error: Empty task title',
+        'Enter Task title before saving!!!',
+        backgroundColor: Colors.black87,
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+      );
+      return null;
+    }
     Get.off(() => LoadingPage());
+    print(task.bgColor.value);
     if (task.id == 0) {
       await this._taskStore.add(this._db, task.toMap());
     } else {
@@ -102,7 +118,6 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
   Future fetchNDayTasks(DateTime date) async {
     this.selectedDay = date;
     this.dayTasks = [];
-    log(this.selectedDay.toString());
     this.allTasks.forEach(
       (task) {
         var time = 0;
