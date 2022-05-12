@@ -26,6 +26,7 @@ dependencies:
   table_calendar: ^3.0.4 
   syncfusion_flutter_charts: ^20.1.50
   flutter_svg: ^1.0.3
+  flutter_native_splash: ^2.1.6
 
 dev_dependencies:
   flutter_test:
@@ -45,12 +46,11 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/thats-no-moon.riv
-    - assets/nothing.riv
-    - assets/images/bg.jpg
-    - assets/images/empty_img.png
-    - assets/images/tasks_list.svg 
-    - assets/images/drawer_img.svg 
-    - assets/images/start_btn.svg 
-    - assets/images/start_btn_bg.svg 
-    - assets/images/timer_tree.svg 
+    - assets/images/  
+    - assets/animations/
+    - assets/
+
+flutter_native_splash:
+  background_image: "assets/splash_bg.png"
+  image: assets/icon.png
+  fullscreen: true

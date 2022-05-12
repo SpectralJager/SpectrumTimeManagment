@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
@@ -109,6 +107,7 @@ class TaskPage extends GetView<TaskController> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            _.changeName = '';
                             nameFieldController.clear();
                           },
                           child: Container(
@@ -229,7 +228,7 @@ class TaskPage extends GetView<TaskController> {
                   Label(text: "Phases"),
                   for (var i = phases.length - 1; i >= 0; i--)
                     Container(
-                      margin: EdgeInsets.only(top: 10),
+                      margin: EdgeInsets.only(top: 16),
                       padding: EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -257,7 +256,9 @@ class TaskPage extends GetView<TaskController> {
                               ),
                               Expanded(child: SizedBox()),
                               GestureDetector(
-                                onTap: () => _.deletePhase(phases[i]),
+                                onTap: () {
+                                  _.deletePhase(phases[i]);
+                                },
                                 child: Container(
                                   width: 40,
                                   height: 40,

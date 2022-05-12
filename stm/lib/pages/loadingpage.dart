@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rive/rive.dart';
 import 'package:stm/controlers/appcontroller.dart';
 import 'package:stm/pages/utils/utils.dart';
 
@@ -21,13 +22,18 @@ class LoadingPage extends GetView<AppController> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SpinKitFoldingCube(
-                color: Colors.white70,
-                size: 100,
+              Container(
+                width: Get.size.width,
+                height: Get.size.width * .8,
+                child: RiveAnimation.asset('assets/animations/loading.riv'),
               ),
-              SizedBox(
-                height: 50,
-              ),
+              // SpinKitFoldingCube(
+              //   color: Colors.white70,
+              //   size: 100,
+              // ),
+              // SizedBox(
+              //   height: 50,
+              // ),
               Text(
                 "Loading",
                 style: GoogleFonts.oswald(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart';
-import 'package:sembast/sembast.dart';
 import 'package:stm/controlers/appcontroller.dart';
 import 'package:stm/models/result.dart';
 import 'package:stm/pages/taskpage.dart';
@@ -116,7 +115,8 @@ class HomePage extends GetView<AppController> {
                           Container(
                             width: Get.size.width,
                             height: Get.size.width,
-                            child: RiveAnimation.asset('assets/nothing.riv'),
+                            child: RiveAnimation.asset(
+                                'assets/animations/nothing.riv'),
                           ),
                           Text(
                             'Nothing...',
@@ -124,7 +124,7 @@ class HomePage extends GetView<AppController> {
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              letterSpacing: 6,
+                              letterSpacing: 4,
                             ),
                           ),
                         ],

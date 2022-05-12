@@ -5,11 +5,9 @@ import 'package:stm/models/phase.dart';
 
 import '../models/task.dart';
 
-class TaskController extends GetxController {
+class TaskController extends GetxController with GetTickerProviderStateMixin {
   late Task task;
   late Phase newPhase;
-
-  // TaskController({required this.task});
 
   set changeName(String name) {
     this.task = this.task.copyWith(name: name);

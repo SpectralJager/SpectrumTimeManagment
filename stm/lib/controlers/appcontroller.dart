@@ -39,7 +39,7 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
     await this.fetchTasks();
     await this.fetchNDayTasks(DateFormat('yyyy-MM-dd')
         .parse(DateFormat('yyyy-MM-dd').format(DateTime.now())));
-    await Future.delayed(Duration(seconds: 3));
+    // await Future.delayed(Duration(seconds: 3));
     Get.off(
       () => HomePage(),
       duration: Duration(seconds: 3),

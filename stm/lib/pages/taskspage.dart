@@ -15,103 +15,106 @@ class TasksPage extends GetView<AppController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: drawer,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: Builder(builder: (context) {
-        return SizedBox(
-          height: 120,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FloatingActionButton(
-                heroTag: null,
-                onPressed: () => Get.to(
-                  () => TaskPage(
-                    task: Task(
-                        id: 0,
-                        name: '',
-                        description: '',
-                        phases: [],
-                        bgColor: Colors.red),
+    return GetBuilder<AppController>(
+      builder: (ctr) {
+        return Scaffold(
+          drawer: drawer,
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButton: Builder(builder: (context) {
+            return SizedBox(
+              height: 120,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () => Get.to(
+                      () => TaskPage(
+                        task: Task(
+                            id: 0,
+                            name: '',
+                            description: '',
+                            phases: [],
+                            bgColor: Colors.red),
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                    backgroundColor: Colors.green,
+                  ),
+                  FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    child: const Icon(
+                      Icons.apps,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
+                ],
+              ),
+            );
+          }),
+          body: bgWidget(
+            bgImage: "assets/images/bg.jpg",
+            overlayColor: Colors.black54,
+            child: Column(
+              children: [
+                ClipPath(
+                  clipper: WaveClip(),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20, top: 20),
+                    color: Colors.redAccent,
+                    width: double.infinity,
+                    height: 160,
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: Get.size.width / 2,
+                          child: Text(
+                            'Your tasks',
+                            style: GoogleFonts.oswald(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child:
+                              SvgPicture.asset('assets/images/tasks_list.svg'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 28,
-                ),
-                backgroundColor: Colors.green,
-              ),
-              FloatingActionButton(
-                heroTag: null,
-                onPressed: () => Scaffold.of(context).openDrawer(),
-                child: const Icon(
-                  Icons.apps,
-                  color: Colors.white,
-                  size: 28,
-                ),
-                backgroundColor: Colors.red,
-              ),
-            ],
-          ),
-        );
-      }),
-      body: bgWidget(
-        bgImage: "assets/images/bg.jpg",
-        overlayColor: Colors.black54,
-        child: Column(
-          children: [
-            ClipPath(
-              clipper: WaveClip(),
-              child: Container(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                color: Colors.redAccent,
-                width: double.infinity,
-                height: 160,
-                alignment: Alignment.centerLeft,
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: Get.size.width / 2,
-                      child: Text(
-                        'Your tasks',
-                        style: GoogleFonts.oswald(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: SvgPicture.asset('assets/images/tasks_list.svg'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            controller.allTasks.length == 0
-                ? Column(
-                    children: [
-                      Container(
-                        width: Get.size.width,
-                        height: Get.size.width,
-                        child: RiveAnimation.asset('assets/nothing.riv'),
-                      ),
-                      Text(
-                        'Nothing...',
-                        style: GoogleFonts.oswald(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.redAccent,
-                          letterSpacing: 6,
-                        ),
-                      ),
-                    ],
-                  )
-                : GetBuilder<AppController>(
-                    builder: (ctr) {
-                      return Expanded(
+                ctr.allTasks.length == 0
+                    ? Column(
+                        children: [
+                          Container(
+                            width: Get.size.width,
+                            height: Get.size.width,
+                            child: RiveAnimation.asset(
+                              'assets/animations/nothing.riv',
+                            ),
+                          ),
+                          Text(
+                            'Nothing...',
+                            style: GoogleFonts.oswald(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.redAccent,
+                              letterSpacing: 6,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Expanded(
                         child: ListView.builder(
                           itemCount: ctr.allTasks.length,
                           itemBuilder: (ctx, index) {
@@ -192,12 +195,12 @@ class TasksPage extends GetView<AppController> {
                             );
                           },
                         ),
-                      );
-                    },
-                  ),
-          ],
-        ),
-      ),
+                      ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

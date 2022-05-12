@@ -52,8 +52,9 @@ var drawer = Drawer(
           AppCtr.fetchNDayTasks(AppCtr.selectedDay);
           Get.off(
             () => HomePage(),
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 500),
             transition: Transition.rightToLeft,
+            curve: Curves.easeIn,
           );
         },
       ),
@@ -74,7 +75,7 @@ var drawer = Drawer(
         onTap: () {
           Get.off(
             () => TasksPage(),
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 500),
             transition: Transition.rightToLeft,
             curve: Curves.easeIn,
           );
@@ -97,8 +98,9 @@ var drawer = Drawer(
         onTap: () {
           Get.to(
             () => StartTaskPage(),
-            duration: Duration(seconds: 1),
+            duration: Duration(milliseconds: 500),
             transition: Transition.rightToLeft,
+            curve: Curves.easeIn,
           );
         },
       ),
