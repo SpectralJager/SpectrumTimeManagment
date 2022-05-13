@@ -11,8 +11,8 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: bgWidget(
-        bgImage: "assets/images/bg.jpg",
-        overlayColor: Colors.redAccent,
+        bgImage: "assets/splash_bg2.png",
+        overlayColor: Colors.transparent,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -23,14 +23,19 @@ class SplashPage extends StatelessWidget {
               child:
                   RiveAnimation.asset('assets/animations/splash_loading.riv'),
             ),
-            Text(
-              "Spectrum Time Managment",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.oswald(
-                color: Colors.black,
-                fontSize: 38,
-                letterSpacing: 2,
-                fontWeight: FontWeight.bold,
+            Container(
+              width: Get.size.width,
+              padding: EdgeInsets.symmetric(vertical: 20),
+              color: Colors.white70,
+              child: Text(
+                "Spectrum Time Managment",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.oswald(
+                  color: Colors.black,
+                  fontSize: 38,
+                  letterSpacing: 2,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

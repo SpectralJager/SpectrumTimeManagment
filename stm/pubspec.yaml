@@ -50,6 +50,6 @@ flutter:
     - assets/
 
 flutter_native_splash:
-  background_image: "assets/splash_bg.png"
+  background_image: "assets/splash_bg2.png"
   image: assets/icon.png
   fullscreen: true
