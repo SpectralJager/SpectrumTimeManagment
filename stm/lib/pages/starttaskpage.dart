@@ -74,7 +74,7 @@ class StartTaskPage extends GetView<AppController> {
                     heroTag: null,
                     onPressed: () => Get.to(
                       () => TaskPage(
-                        task: Task(
+                        Task(
                           id: 0,
                           name: '',
                           description: '',

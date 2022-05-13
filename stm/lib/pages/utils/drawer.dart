@@ -49,7 +49,7 @@ var drawer = Drawer(
           ),
         ),
         onTap: () {
-          AppCtr.fetchNDayTasks(AppCtr.selectedDay);
+          AppCtr.fetchSelectedDayTasks(AppCtr.selectedDay);
           Get.off(
             () => HomePage(),
             duration: Duration(milliseconds: 500),
@@ -107,3 +107,26 @@ var drawer = Drawer(
     ],
   ),
 );
+
+class drawerFAB extends StatelessWidget {
+  drawerFAB({
+    required this.context,
+    Key? key,
+  }) : super(key: key);
+
+  BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      heroTag: null,
+      onPressed: () => Scaffold.of(this.context).openDrawer(),
+      child: const Icon(
+        Icons.apps,
+        color: Colors.white,
+        size: 28,
+      ),
+      backgroundColor: Colors.red,
+    );
+  }
+}

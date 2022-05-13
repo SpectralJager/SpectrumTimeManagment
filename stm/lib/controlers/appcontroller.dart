@@ -37,7 +37,7 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
     this.initAnimation();
     await this.initDB();
     await this.fetchTasks();
-    await this.fetchNDayTasks(DateFormat('yyyy-MM-dd')
+    await this.fetchSelectedDayTasks(DateFormat('yyyy-MM-dd')
         .parse(DateFormat('yyyy-MM-dd').format(DateTime.now())));
     // await Future.delayed(Duration(seconds: 3));
     Get.off(
@@ -99,7 +99,7 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
       await this._taskStore.record(task.id).update(this._db, task.toMap());
     }
     await this.fetchTasks();
-    await this.fetchNDayTasks(this.selectedDay);
+    await this.fetchSelectedDayTasks(this.selectedDay);
     Get.back();
     this.update();
   }
@@ -109,13 +109,13 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
       Get.off(() => LoadingPage());
       await this._taskStore.record(task.id).delete(this._db);
       await this.fetchTasks();
-      await this.fetchNDayTasks(this.selectedDay);
+      await this.fetchSelectedDayTasks(this.selectedDay);
     }
     Get.back();
     this.update();
   }
 
-  Future fetchNDayTasks(DateTime date) async {
+  Future fetchSelectedDayTasks(DateTime date) async {
     this.selectedDay = date;
     this.dayTasks = [];
     this.allTasks.forEach(

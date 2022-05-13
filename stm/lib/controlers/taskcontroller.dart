@@ -7,16 +7,17 @@ import '../models/task.dart';
 
 class TaskController extends GetxController with GetTickerProviderStateMixin {
   late Task task;
-  late Phase newPhase;
+  late TextEditingController nameFieldController;
+  late TextEditingController descriptionFieldController;
 
   set changeName(String name) {
     this.task = this.task.copyWith(name: name);
-    this.update();
+    // this.update();
   }
 
   set changeDescription(String description) {
     this.task = this.task.copyWith(description: description);
-    this.update();
+    // this.update();
   }
 
   set changeBgColor(Color color) {
@@ -28,7 +29,6 @@ class TaskController extends GetxController with GetTickerProviderStateMixin {
     var phases = this.task.phases;
     phases.remove(phase);
     this.task = this.task.copyWith(phases: phases);
-    this.update();
   }
 
   String phaseTime(Phase phase) {
