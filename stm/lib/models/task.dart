@@ -5,23 +5,24 @@ import 'phase.dart';
 class Task {
   final int id;
   final String name;
+  final String description;
   final List<Phase> phases;
   final Color bgColor;
-  final Color txtColor;
 
-  Task(
-      {required this.id,
-      required this.name,
-      required this.phases,
-      required this.bgColor,
-      required this.txtColor}) {}
+  Task({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.phases,
+    required this.bgColor,
+  }) {}
 
   Map<String, dynamic> toMap() {
     return {
       "name": this.name,
+      "description": this.description,
       "phases": this.phases.map((element) => element.toMap()).toList(),
-      "bgColor": this.bgColor.hashCode,
-      "txtColor": this.txtColor.hashCode,
+      "bgColor": this.bgColor.value,
     };
   }
 
@@ -30,27 +31,28 @@ class Task {
     for (int i = 0; i < map['phases'].length; i++) {
       tempPhases.add(Phase.fromMap(map['phases'][i]));
     }
-    return Task(
+    return new Task(
       id: id,
       name: map['name'],
+      description: map['description'],
       phases: tempPhases,
       bgColor: Color(map['bgColor']),
-      txtColor: Color(map['txtColor']),
     );
   }
 
-  Task copyWith(
-      {int? id,
-      String? name,
-      List<Phase>? phases,
-      Color? bgColor,
-      Color? txtColor}) {
-    return Task(
+  Task copyWith({
+    int? id,
+    String? name,
+    String? description,
+    List<Phase>? phases,
+    Color? bgColor,
+  }) {
+    return new Task(
       id: id ?? this.id,
       name: name ?? this.name,
+      description: description ?? this.description,
       phases: phases ?? [...this.phases],
       bgColor: bgColor ?? this.bgColor,
-      txtColor: txtColor ?? this.txtColor,
     );
   }
 
@@ -59,6 +61,14 @@ class Task {
     for (int i = 0; i < this.phases.length; i++) {
       var tempPhase = this.phases[i];
       temp += tempPhase.endTime.difference(tempPhase.startTime).inMinutes;
+    }
+    return temp;
+  }
+
+  int get totalDuration {
+    var temp = 0;
+    for (var item in this.phases) {
+      temp += item.duration;
     }
     return temp;
   }

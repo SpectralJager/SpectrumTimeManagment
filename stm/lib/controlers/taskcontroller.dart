@@ -5,15 +5,19 @@ import 'package:stm/models/phase.dart';
 
 import '../models/task.dart';
 
-class TaskController extends GetxController {
-  Task task;
-  late Phase newPhase;
-  var td = '00:00:00'.obs;
-
-  TaskController({required this.task});
+class TaskController extends GetxController with GetTickerProviderStateMixin {
+  late Task task;
+  late TextEditingController nameFieldController;
+  late TextEditingController descriptionFieldController;
 
   set changeName(String name) {
     this.task = this.task.copyWith(name: name);
+    // this.update();
+  }
+
+  set changeDescription(String description) {
+    this.task = this.task.copyWith(description: description);
+    // this.update();
   }
 
   set changeBgColor(Color color) {
@@ -21,29 +25,18 @@ class TaskController extends GetxController {
     this.update();
   }
 
-  set changeTxtColor(Color color) {
-    this.task = this.task.copyWith(txtColor: color);
-    this.update();
-  }
-
-  void addPhase() async {
-    this.task.phases.add(this.newPhase);
-    this.update();
-    Get.back();
+  void deletePhase(Phase phase) {
+    var phases = this.task.phases;
+    phases.remove(phase);
+    this.task = this.task.copyWith(phases: phases);
   }
 
   String phaseTime(Phase phase) {
-    return "${DateFormat('MM.dd, kk:mm').format(phase.startTime)} to ${DateFormat('MM.dd, kk:mm').format(phase.endTime)}";
+    return "${DateFormat('dd MMM, kk:mm').format(phase.startTime)} - ${DateFormat('dd MMM, kk:mm').format(phase.endTime)}";
   }
 
   String phaseDuration(Phase phase) {
     var duration = phase.endTime.difference(phase.startTime);
     return "${duration.inMinutes} minutes";
-  }
-
-  void timeDiff() {
-    var duration = DateTime.now().difference(this.newPhase.startTime);
-    td.value =
-        "${duration.inHours.toString().padLeft(2, '0')}:${duration.inMinutes.remainder(60).toString().padLeft(2, '0')}:${duration.inSeconds.remainder(60).toString().padLeft(2, '0')}";
   }
 }

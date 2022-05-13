@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:stm/models/task.dart';
 
 class Result {
-  final String name;
-  final String subname;
+  final String title;
+  final String subtitle;
   final int time;
   final Color bgColor;
-  final Color txtColor;
+  final Task task;
 
-  Result(
-      {required this.name,
-      required this.subname,
-      required this.time,
-      required this.bgColor,
-      required this.txtColor});
+  Result({
+    required this.title,
+    required this.subtitle,
+    required this.time,
+    required this.bgColor,
+    required this.task,
+  });
 }
