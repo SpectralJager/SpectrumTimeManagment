@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:stm/controlers/appcontroller.dart';
 import 'package:stm/pages/splashpage.dart';
 
 void main() {
-  runApp(const STM());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(const STM()));
 }
 
 class STM extends StatelessWidget {
