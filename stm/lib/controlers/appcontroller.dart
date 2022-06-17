@@ -33,12 +33,13 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
     if (await Permission.storage.request().isDenied) {
       exit(0);
     }
+    log(DateTime.now().toIso8601String());
     precacheImage(AssetImage('assets/images/bg.jpg'), Get.context!);
     this.initAnimation();
     await this.initDB();
+
     await this.fetchTasks();
-    await this.fetchSelectedDayTasks(DateFormat('yyyy-MM-dd')
-        .parse(DateFormat('yyyy-MM-dd').format(DateTime.now())));
+    await this.fetchSelectedDayTasks(DateTime.now());
     // await Future.delayed(Duration(seconds: 3));
     Get.off(
       () => HomePage(),
@@ -116,7 +117,9 @@ class AppController extends GetxController with GetTickerProviderStateMixin {
   }
 
   Future fetchSelectedDayTasks(DateTime date) async {
-    this.selectedDay = date;
+    this.selectedDay =
+        DateFormat('yyyy-MM-dd').parse(DateFormat('yyyy-MM-dd').format(date));
+    log(this.selectedDay.toIso8601String());
     this.dayTasks = [];
     this.allTasks.forEach(
       (task) {
